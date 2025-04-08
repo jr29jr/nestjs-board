@@ -43,10 +43,10 @@ export class BoardsService {
         return board;
     }
 
-    // getAllBoards(): Board[] {
-    //     return this.boards;
-    // }
-    //
+    getAllBoards(): Promise<Board[]> {
+        return this.boardRepository.find();
+    }
+
     // createBoard(createBoardDto: CreateBoardDto) {
     //     const { title, description } = createBoardDto;
     //
