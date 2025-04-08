@@ -20,6 +20,11 @@ export class BoardsController {
         return this.boardsService.createBoard(createBoardDto);
     }
 
+    @Delete('/:id')
+    deleteBoard(@Param('id', ParseIntPipe) id: number): Promise<void> {
+        return this.boardsService.deleteBoard(id);
+    }
+
     //
     // @Post()
     // @UsePipes(ValidationPipe)
