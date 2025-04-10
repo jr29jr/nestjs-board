@@ -1,6 +1,6 @@
 import { DataSource, Repository } from 'typeorm';
 import { User } from './user.entity';
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { SignUpDto } from './dto/sign-up.dto';
 
 @Injectable()
@@ -16,7 +16,17 @@ export class UserRepository extends Repository<User> {
       password,
     });
 
-    await this.save(user);
-    return user;
+    try{
+      await this.save(user);
+      return user;
+    }
+    catch (error) {
+      if(error.code === '23505'){
+        throw new ConflictException('existing username'); //409 오류구나.
+      }
+      else{
+        throw new InternalServerErrorException();
+      }
+    }
   }
 }
