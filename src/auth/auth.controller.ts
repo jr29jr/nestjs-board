@@ -1,6 +1,7 @@
-import { Body, Controller, HttpCode, Post } from '@nestjs/common';
+import { Body, CanActivate, Controller, HttpCode, Injectable, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignUpDto } from './dto/sign-up.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('auth')
 export class AuthController {
@@ -17,4 +18,11 @@ export class AuthController {
   singIn(@Body() signUpDto:SignUpDto): Promise<{accessToken: string}>{
     return this.authService.signIn(signUpDto);
   }
+
+  @Post('/test')
+  @UseGuards(AuthGuard() as unknown as CanActivate) // useGuards
+  test(@Req() req){
+    console.log(req);
+  }
 }
+
