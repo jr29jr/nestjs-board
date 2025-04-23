@@ -2,6 +2,8 @@ import { Body, CanActivate, Controller, HttpCode, Injectable, Post, Req, UseGuar
 import { AuthService } from './auth.service';
 import { SignUpDto } from './dto/sign-up.dto';
 import { AuthGuard } from '@nestjs/passport';
+import { GetUser } from './get-user.decorator';
+import { User } from './user.entity';
 
 @Controller('auth')
 export class AuthController {
@@ -20,9 +22,9 @@ export class AuthController {
   }
 
   @Post('/test')
-  @UseGuards(AuthGuard() as unknown as CanActivate) // useGuards
-  test(@Req() req){
-    console.log(req);
+  @UseGuards(AuthGuard() as unknown as CanActivate) // 이걸해야 req에 user가 들어간다.
+  test(@GetUser() user:User){
+    console.log('user',user);
   }
 }
 

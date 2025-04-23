@@ -1,5 +1,5 @@
 import {
-    Body,
+    Body, CanActivate,
     Controller,
     Delete,
     Get, Header,
@@ -18,8 +18,10 @@ import { BoardsService } from './boards.service';
 import { CreateBoardDto } from './dto/create-board.dto';
 import { BoardStatusValidationPipe } from './pipes/board-status-validation.pipe';
 import { Board } from './board.entity';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('boards')
+@UseGuards(AuthGuard() as unknown as CanActivate)
 export class BoardsController {
     constructor(private boardsService: BoardsService) { }
 
