@@ -19,6 +19,8 @@ import { CreateBoardDto } from './dto/create-board.dto';
 import { BoardStatusValidationPipe } from './pipes/board-status-validation.pipe';
 import { Board } from './board.entity';
 import { AuthGuard } from '@nestjs/passport';
+import { GetUser } from '../auth/get-user.decorator';
+import { User } from '../auth/user.entity';
 
 @Controller('boards')
 @UseGuards(AuthGuard() as unknown as CanActivate)
@@ -33,9 +35,11 @@ export class BoardsController {
     @Post()
     @UsePipes(ValidationPipe)
     @HttpCode(201)
-    @Header('set cook','sdf')
-    createBoard(@Body() createBoardDto:CreateBoardDto){
-        return this.boardsService.createBoard(createBoardDto);
+    createBoard(
+      @Body() createBoardDto:CreateBoardDto,
+      @GetUser() user:User,
+    ){
+        return this.boardsService.createBoard(createBoardDto, user);
     }
 
     @Delete('/:id')

@@ -3,6 +3,7 @@ import { CreateBoardDto } from './dto/create-board.dto';
 import { BoardRepository } from './board.repository';
 import { Board } from './board.entity';
 import { BoardStatus } from './board-status.enum';
+import { User } from '../auth/user.entity';
 
 @Injectable()
 export class BoardsService {
@@ -12,8 +13,8 @@ export class BoardsService {
     }
 
     //createBoard 하는걸 기다려야하지않나?..
-    createBoard( createBoardDto:CreateBoardDto ){
-        return this.boardRepository.createBoard(createBoardDto);
+    createBoard( createBoardDto:CreateBoardDto, user:User ){
+        return this.boardRepository.createBoard(createBoardDto,user);
     }
 
     async getBoardById(id: number): Promise<Board>{
